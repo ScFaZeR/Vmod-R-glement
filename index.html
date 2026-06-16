@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Règlement - VMod</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap');
+
+        :root {
+            --bg-dark: #0f0f11;
+            --bg-sidebar: #16161a;
+            --bg-card: #1c1c21;
+            --text-main: #d1d5db;
+            --text-title: #ffffff;
+            --primary-gold: #ffd700;
+            --primary-purple: #9d00ff;
+            --border-color: #2d2d33;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            display: flex;
+            height: 100vh;
+            overflow: hidden;
+            line-height: 1.7;
+        }
+
+        /* --- LOADER ANIMATION --- */
+        #loader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            background-color: #000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            transition: opacity 0.6s ease-out;
+        }
+
+        .loader-logo {
+            width: 200px;
+            animation: pulse 2s infinite, glow 2s infinite alternate;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(0.95); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(0.95); }
+        }
+
+        @keyframes glow {
+            0% { filter: drop-shadow(0 0 10px var(--primary-purple)); }
+            100% { filter: drop-shadow(0 0 30px var(--primary-gold)); }
+        }
+
+        /* --- SIDEBAR (STYLE GITBOOK) --- */
+        .sidebar {
+            width: 280px;
+            background-color: var(--bg-sidebar);
+            border-right: 1px solid var(--border-color);
+            display: flex;
+            flex-direction: column;
+            overflow-y: auto;
+            flex-shrink: 0;
+        }
+
+        .sidebar::-webkit-scrollbar { width: 6px; }
+        .sidebar::-webkit-scrollbar-track { background: var(--bg-sidebar); }
+        .sidebar::-webkit-scrollbar-thumb { background: var(--border-color); border-radius: 10px; }
+
+        .sidebar-header {
+            padding: 2rem 1.5rem;
+            text-align: center;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .sidebar-header img {
+            width: 80px;
+            margin-bottom: 1rem;
+        }
+
+        .sidebar-header h1 {
+            color: var(--text-title);
+            font-size: 1.5rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            background: linear-gradient(90deg, var(--primary-gold), var(--primary-purple));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .sidebar-nav {
+            padding: 1.5rem 0 3rem 0;
+        }
+
+        .sidebar-nav ul { list-style: none; }
+        .sidebar-nav li a {
+            display: block;
+            padding: 0.7rem 1.5rem;
+            color: #9ca3af;
+            text-decoration: none;
+            font-size: 0.95rem;
+            transition: all 0.2s;
+            border-left: 3px solid transparent;
+        }
+
+        .sidebar-nav li a:hover {
+            color: var(--text-title);
+            background-color: rgba(255, 255, 255, 0.05);
+            border-left: 3px solid var(--primary-gold);
+        }
+
+        /* SOUS-MENUS */
+        .menu-category {
+            color: var(--text-title);
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin: 1.5rem 0 0.5rem 1.5rem;
+            font-weight: 800;
+            opacity: 0.7;
+        }
+
+        .sidebar-nav li.sub-item a {
+            padding-left: 2.5rem;
+            font-size: 0.88rem;
+            border-left: 3px solid rgba(255,255,255,0.02);
+        }
+
+        /* --- CONTENT AREA --- */
+        .content {
+            flex-grow: 1;
+            padding: 3rem 5rem;
+            overflow-y: auto;
+            position: relative;
+        }
+
+        .content-inner {
+            max-width: 800px;
+            margin: 0 auto;
+            padding-bottom: 5rem;
+        }
+
+        h2 {
+            color: var(--text-title);
+            font-size: 2.2rem;
+            margin-top: 3rem;
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        h2:first-child { margin-top: 0; }
+
+        h3 {
+            color: var(--primary-gold);
+            font-size: 1.4rem;
+            margin-top: 0;
+            margin-bottom: 1rem;
+        }
+
+        .job-section {
+            padding-top: 2rem;
+            margin-top: 1rem;
+            border-top: 1px dashed var(--border-color);
+        }
+
+        .job-section:first-of-type {
+            border-top: none;
+            padding-top: 0;
+        }
+
+        p { margin-bottom: 1rem; }
+
+        ul.rules-list {
+            list-style: none;
+            background-color: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        ul.rules-list li {
+            margin-bottom: 1rem;
+            position: relative;
+            padding-left: 1.5rem;
+        }
+
+        ul.rules-list li:last-child { margin-bottom: 0; }
+        ul.rules-list li::before {
+            content: '■';
+            color: var(--primary-purple);
+            position: absolute;
+            left: 0;
+            top: 2px;
+            font-size: 0.8rem;
+        }
+
+        strong { color: var(--text-title); }
+
+        /* Style pour les commandes */
+        code {
+            background-color: rgba(255, 215, 0, 0.1);
+            color: var(--primary-gold);
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: monospace;
+            font-size: 0.95em;
+        }
+
+        @media (max-width: 768px) {
+            body { flex-direction: column; }
+            .sidebar {
+                width: 100%;
+                border-right: none;
+                border-bottom: 1px solid var(--border-color);
+                max-height: 300px;
+            }
+            .content { padding: 2rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <div id="loader">
+        <img src="logo.png" alt="VMod Logo" class="loader-logo">
+    </div>
+
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <img src="logo.png" alt="VMod">
+            <h1>Règlement</h1>
+        </div>
+        <nav class="sidebar-nav">
+            <ul>
+                <!-- Règles Générales -->
+                <li><a href="#lexique">📖 Lexique RP</a></li>
+                <li><a href="#commandes">⌨️ Commandes Utiles</a></li>
+                <li><a href="#zones">🌍 Zones & Environnement</a></li>
+                <li><a href="#illegal">🥷 L'Illégal & Factions</a></li>
+                <li><a href="#braquages">🏦 Braquages & Véhicules</a></li>
+                
+                <!-- Section Métiers -->
+                <div class="menu-category">💼 Les Métiers</div>
+                <li class="sub-item"><a href="#job-psychopathe">🔪 Psychopathe VIP</a></li>
+                <li class="sub-item"><a href="#job-hitman">🎯 Hitman</a></li>
+                <li class="sub-item"><a href="#job-infiltre">🕵️ Unité Infiltrée VIP</a></li>
+                <li class="sub-item"><a href="#job-k9">🐕 Chien K9 VIP</a></li>
+                <li class="sub-item"><a href="#job-maire">🏛️ Maire & Garde</a></li>
+                <li class="sub-item"><a href="#job-ems">🚑 EMS (Secouristes)</a></li>
+                <li class="sub-item"><a href="#job-banquier">🏦 Banquier</a></li>
+                <li class="sub-item"><a href="#job-hacker">💻 Hacker</a></li>
+                <li class="sub-item"><a href="#job-gundealer">🔫 Gun Dealer</a></li>
+                <li class="sub-item"><a href="#job-voleur">🪓 Voleur / VIP</a></li>
+                <li class="sub-item"><a href="#job-sdf">📦 SDF</a></li>
+            </ul>
+        </nav>
+    </aside>
+
+    <main class="content">
+        <div class="content-inner">
+
+            <section id="lexique">
+                <h2>📖 Lexique RP (Les Bases)</h2>
+                <ul class="rules-list">
+                    <li><strong>HRP (Hors RolePlay) :</strong> Tout ce qui ne concerne pas votre personnage (vie réelle, discord, bugs). Il est interdit de parler HRP en jeu.</li>
+                    <li><strong>Metagaming :</strong> Utiliser des informations obtenues HRP pour s'en servir en RP.</li>
+                    <li><strong>Powergaming :</strong> Réaliser des actions physiquement impossibles ou irréalistes.</li>
+                    <li><strong>Fear RP (La Peur) :</strong> Vous devez simuler la peur pour votre vie. Face à une arme sans moyen de vous défendre, vous coopérez.</li>
+                    <li><strong>Pain RP (La Douleur) :</strong> Jouez la douleur suite à un accident, une chute ou des blessures.</li>
+                    <li><strong>Mass RP :</strong> La ville n'est pas vide (simulation de PNJ). Pas d'armes lourdes en centre-ville sans raison majeure.</li>
+                    <li><strong>Freekill / Freeshoot :</strong> Tuer ou tirer sans raison RP valable. La violence est le dernier recours.</li>
+                    <li><strong>NLR (New Life Rule) & Mort :</strong> Sur VMod, il n'y a pas de mort RP définitive (Wipe). En cas de mort, vous oubliez TOUT de la scène. De plus, <strong>vous perdez l'intégralité de votre inventaire</strong> (armes, objets, etc.) à l'exception de votre argent (liquide propre et argent sale) que vous conservez sur vous.</li>
+                </ul>
+            </section>
+
+            <section id="commandes">
+                <h2>⌨️ Commandes Utiles</h2>
+                <p>Voici la liste des commandes essentielles à utiliser dans le chat (touche T) pour vos actions en jeu :</p>
+                <ul class="rules-list">
+                    <li><code>/rename [Prénom] [Nom]</code> : Permet de vous renommer (ex: <i>/rename fazer dev</i>).</li>
+                    <li><code>/ano [Message]</code> : Envoie un message de manière totalement anonyme (ex: <i>/ano salut</i>).</li>
+                    <li><code>/report</code> : Ouvre un ticket pour contacter l'équipe de modération (Staff).</li>
+                    <li><code>/pets</code> : Ouvre le menu pour faire apparaître et gérer vos familiers.</li>
+                    <li><code>/props</code> : Ouvre le menu permettant de poser des objets (props) dans le monde.</li>
+                    <li><code>/id</code> : Affiche votre identifiant unique de joueur en jeu.</li>
+                </ul>
+            </section>
+
+            <section id="zones">
+                <h2>🌍 Zones & Environnement</h2>
+                <ul class="rules-list">
+                    <li><strong>Zéro Safe Zone :</strong> Il n'y a pas de "Safe Zone" artificielle bloquée par le script sur VMod. Tout est jouable partout, du moment que la cohérence et le RP sont respectés.</li>
+                    <li><strong>Lieux sous tension (Mass RP) :</strong> Soyez extrêmement prudents dans les zones censées être bondées de civils (Hôpital, Commissariat, Places centrales). Si vous commettez un acte violent ou sortez une arme sans raison valable, les forces de l'ordre ont l'autorisation de vous <strong>abattre sur-le-champ</strong> sans sommation.</li>
+                </ul>
+            </section>
+
+            <section id="illegal">
+                <h2>🥷 L'Illégal & Factions</h2>
+                <ul class="rules-list">
+                    <li><strong>Territoires :</strong> Les groupes doivent s'approprier un territoire fixe pour opérer.</li>
+                    <li><strong>Diplomatie :</strong> Les alliances entre groupes criminels sont STRICTEMENT INTERDITES. Seules des trêves commerciales sont tolérées.</li>
+                    <li><strong>Racket et Extorsion :</strong> Autorisé sur tout citoyen SAUF les travailleurs en cours de service. Ne bloquez pas l'économie légale.</li>
+                    <li><strong>Limites de Vol (Racket) :</strong> Lors d'un racket, vous ne pouvez voler que <strong>50% maximum</strong> de l'argent liquide de votre victime.</li>
+                    <li><strong>Limites d'Inventaire :</strong> Vous êtes autorisé à dérober <strong>UN SEUL objet</strong> à la personne ciblée. Les armes de poing et blanches peuvent être volées, mais <strong>le vol d'armes lourdes est strictement interdit</strong>.</li>
+                </ul>
+            </section>
+
+            <section id="braquages">
+                <h2>🏦 Braquages & Véhicules</h2>
+                <ul class="rules-list">
+                    <li><strong>Braquage de Banque (Fleeca) :</strong> Il est obligatoire de posséder <strong>au moins 1 otage</strong>.</li>
+                    <li><strong>L'Attente de la Police :</strong> Pour TOUT braquage, <strong>il est obligatoire d'attendre l'arrivée de la police</strong> (Max 5 minutes d'attente avant fuite si la police n'est pas là).</li>
+                    <li><strong>Véhicules de Fonction :</strong> Il est <strong>strictement interdit</strong> de voler des véhicules de fonction (véhicules de Police, EMS, Gouvernement).</li>
+                    <li><strong>Le PIT (Percuter un fuyard) :</strong> Autorisé pour les forces de l'ordre uniquement après <strong>10 minutes</strong> de course-poursuite.</li>
+                    <li><strong>Le Plan Mules (Guet-apens) :</strong> Les fuyards sont autorisés à utiliser un "Plan Mules" (bloquer la route).</li>
+                    <li><strong>Annulation du délai de PIT :</strong> Dès qu'un Plan Mules est activé, cela donne <strong>l'autorisation immédiate aux forces de l'ordre d'effectuer des PIT</strong>.</li>
+                </ul>
+            </section>
+
+            <section id="metiers">
+                <h2>💼 Les Métiers</h2>
+                
+                <div id="job-psychopathe" class="job-section">
+                    <h3>🔪 Psychopathe VIP</h3>
+                    <ul class="rules-list">
+                        <li><strong>Discrétion absolue :</strong> Agissez dans l'ombre. Il est interdit de tuer en pleine rue. Kidnappez vos victimes pour les emmener dans un lieu clos.</li>
+                        <li><strong>Fair-play :</strong> Vous pouvez choisir vos victimes au hasard, mais la scène doit être propre.</li>
+                    </ul>
+                </div>
+
+                <div id="job-hitman" class="job-section">
+                    <h3>🎯 Hitman</h3>
+                    <ul class="rules-list">
+                        <li><strong>Prise de contrat :</strong> S'effectue en jeu via le système de ciblage (ox_target).</li>
+                        <li><strong>Exécution :</strong> L'objectif principal est la discrétion et la beauté de l'exécution.</li>
+                        <li><strong>Code d'honneur :</strong> Si arrêté, vous pouvez dénoncer votre employeur à la police pour alléger votre peine.</li>
+                    </ul>
+                </div>
+
+                <div id="job-infiltre" class="job-section">
+                    <h3>🕵️ Unité Infiltrée VIP</h3>
+                    <ul class="rules-list">
+                        <li><strong>Risques :</strong> Si le groupe criminel découvre votre identité, ils ont l'autorisation totale de vous abattre (Mort RP justifiée).</li>
+                    </ul>
+                </div>
+
+                <div id="job-k9" class="job-section">
+                    <h3>🐕 Chien K9 VIP</h3>
+                    <ul class="rules-list">
+                        <li><strong>Déploiement :</strong> Idéalement accompagné d'un maître.</li>
+                        <li><strong>Comportement :</strong> Vous pouvez attaquer face à une menace immédiate. Toute violence gratuite sera lourdement sanctionnée.</li>
+                    </ul>
+                </div>
+
+                <div id="job-maire" class="job-section">
+                    <h3>🏛️ Maire & Garde</h3>
+                    <ul class="rules-list">
+                        <li><strong>Pouvoirs :</strong> Le Maire gère la ville via son application. Il peut instaurer une dictature.</li>
+                        <li><strong>Renversement :</strong> Les citoyens ou mafias peuvent engager un Hitman ou organiser une prise d'otage pour l'éliminer.</li>
+                    </ul>
+                </div>
+
+                <div id="job-ems" class="job-section">
+                    <h3>🚑 EMS (Secouristes)</h3>
+                    <ul class="rules-list">
+                        <li><strong>Intouchables :</strong> Ils sont protégés et totalement neutres. Il est <strong>strictement interdit</strong> de les braquer ou de voler leurs véhicules.</li>
+                    </ul>
+                </div>
+
+                <div id="job-banquier" class="job-section">
+                    <h3>🏦 Banquier</h3>
+                    <ul class="rules-list">
+                        <li><strong>Gestion des Coffres :</strong> Accès à la salle des coffres pour installer les "printers" de leurs clients.</li>
+                        <li><strong>Pression RP :</strong> En cas de braquage, vous devez jouer un <strong>Fear RP strict</strong>, votre vie étant menacée.</li>
+                    </ul>
+                </div>
+
+                <div id="job-hacker" class="job-section">
+                    <h3>💻 Hacker</h3>
+                    <ul class="rules-list">
+                        <li><strong>Piratage d'ATM :</strong> Spécialisé dans le braquage de distributeurs.</li>
+                        <li><strong>Exception de Fuite :</strong> <strong>Le Hacker n'a pas l'obligation d'attendre la police 5 minutes</strong>. Il peut fuir immédiatement.</li>
+                    </ul>
+                </div>
+
+                <div id="job-gundealer" class="job-section">
+                    <h3>🔫 Gun Dealer</h3>
+                    <ul class="rules-list">
+                        <li><strong>Appropriation :</strong> Autorisés à s'approprier (claim) les Ammu-Nations via les portes configurées.</li>
+                    </ul>
+                </div>
+
+                <div id="job-voleur" class="job-section">
+                    <h3>🪓 Voleur / Voleur VIP</h3>
+                    <ul class="rules-list">
+                        <li><strong>Cohérence (Crowbar) :</strong> L'usage du pied-de-biche doit être cohérent. Si l'action est trop risquée (cramée), fuyez.</li>
+                        <li><strong>Keypad Cracker :</strong> Vous disposez d'un outil permettant de pirater les keypads pour forcer et ouvrir les portes verrouillées d'une propriété.</li>
+                        <li><strong>Violation de Domicile :</strong> Attention, une fois infiltré, vous êtes en danger de mort. Les propriétaires à l'intérieur sont en droit de défendre leur territoire et ont l'autorisation de <strong>vous abattre sur-le-champ</strong> sans aucune sommation (Légitime défense).</li>
+                    </ul>
+                </div>
+
+                <div id="job-sdf" class="job-section">
+                    <h3>📦 SDF</h3>
+                    <ul class="rules-list">
+                        <li><strong>Survie :</strong> Peuvent mendier partout avec leur carton. Le vol de nourriture et le vol entre SDF sont autorisés.</li>
+                    </ul>
+                </div>
+
+            </section>
+
+        </div>
+    </main>
+
+    <script>
+        window.addEventListener('load', () => {
+            const loader = document.getElementById('loader');
+            setTimeout(() => {
+                loader.style.opacity = '0';
+                setTimeout(() => {
+                    loader.style.display = 'none';
+                }, 600);
+            }, 1800);
+        });
+    </script>
+</body>
+</html>
