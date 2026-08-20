@@ -5,16 +5,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Règlement - VMod</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;700&display=swap');
 
         :root {
-            --bg-base: #121212;
-            --bg-surface: #1e1e1e;
-            --bg-surface-hover: #2c2c2c;
-            --text-primary: #e0e0e0;
-            --text-secondary: #a0a0a0;
-            --border-color: #333333;
-            --accent-color: #4a90e2;
+            --bg-base: #09090b;
+            --bg-sidebar: rgba(15, 15, 18, 0.85);
+            --bg-card: rgba(20, 20, 24, 0.5);
+            --bg-card-hover: rgba(28, 28, 34, 0.8);
+            --text-primary: #f4f4f5;
+            --text-secondary: #a1a1aa;
+            --text-muted: #71717a;
+            --border-color: rgba(255, 255, 255, 0.08);
+            --border-hover: rgba(255, 255, 255, 0.15);
+            --accent: #ffffff;
         }
 
         * {
@@ -25,117 +28,181 @@
         }
 
         body {
-            font-family: 'Inter', sans-serif;
+            font-family: 'Outfit', sans-serif;
             background-color: var(--bg-base);
             color: var(--text-primary);
             display: flex;
             height: 100vh;
             overflow: hidden;
             line-height: 1.6;
-            font-size: 15px;
+            font-size: 16px;
+            background-image: 
+                radial-gradient(circle at 15% 50%, rgba(255, 255, 255, 0.03) 0%, transparent 50%),
+                radial-gradient(circle at 85% 30%, rgba(255, 255, 255, 0.02) 0%, transparent 50%);
+        }
+
+        /* --- LOADER ANIMATION --- */
+        #loader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            background-color: var(--bg-base);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            transition: opacity 0.6s ease-out, visibility 0.6s ease-out;
+        }
+
+        .loader-logo {
+            width: 200px;
+            animation: pulse 2s infinite cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(0.95); opacity: 0.8; filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.1)); }
+            50% { transform: scale(1.05); opacity: 1; filter: drop-shadow(0 0 25px rgba(255, 255, 255, 0.3)); }
+            100% { transform: scale(0.95); opacity: 0.8; filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.1)); }
         }
 
         /* --- SIDEBAR --- */
         .sidebar {
-            width: 280px;
-            background-color: var(--bg-surface);
+            width: 320px;
+            background-color: var(--bg-sidebar);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
             border-right: 1px solid var(--border-color);
             display: flex;
             flex-direction: column;
             overflow-y: auto;
             flex-shrink: 0;
+            z-index: 10;
         }
 
-        .sidebar::-webkit-scrollbar { width: 6px; }
-        .sidebar::-webkit-scrollbar-track { background: var(--bg-surface); }
+        .sidebar::-webkit-scrollbar { width: 4px; }
+        .sidebar::-webkit-scrollbar-track { background: transparent; }
         .sidebar::-webkit-scrollbar-thumb { background: var(--border-color); border-radius: 10px; }
 
         .sidebar-header {
-            padding: 2rem 1.5rem;
+            padding: 2.5rem 2rem 1.5rem;
             text-align: left;
-            border-bottom: 1px solid var(--border-color);
+        }
+
+        .sidebar-header img {
+            width: 60px;
+            margin-bottom: 1rem;
+            border-radius: 8px;
         }
 
         .sidebar-header h1 {
             color: var(--text-primary);
-            font-size: 1.25rem;
+            font-size: 1.5rem;
             font-weight: 700;
-            letter-spacing: 0.5px;
+            letter-spacing: 0.05em;
+            margin-bottom: 0.25rem;
+        }
+
+        .sidebar-header p {
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            font-weight: 400;
         }
 
         .sidebar-nav {
-            padding: 1.5rem 0;
+            padding: 1rem 0 3rem;
         }
 
-        .sidebar-nav ul { list-style: none; }
+        .sidebar-nav ul { list-style: none; padding: 0 1rem; }
         .sidebar-nav li a {
-            display: block;
-            padding: 0.6rem 1.5rem;
+            display: flex;
+            align-items: center;
+            padding: 0.75rem 1rem;
             color: var(--text-secondary);
             text-decoration: none;
             font-size: 0.95rem;
             font-weight: 500;
-            transition: all 0.2s ease;
-            border-left: 3px solid transparent;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            margin-bottom: 0.25rem;
         }
 
         .sidebar-nav li a:hover {
             color: var(--text-primary);
-            background-color: var(--bg-surface-hover);
-            border-left: 3px solid var(--accent-color);
+            background-color: rgba(255, 255, 255, 0.04);
+            transform: translateX(4px);
         }
 
         .menu-category {
-            color: var(--text-primary);
+            color: var(--text-muted);
             font-size: 0.75rem;
             text-transform: uppercase;
-            letter-spacing: 0.1em;
-            margin: 1.5rem 0 0.5rem 1.5rem;
+            letter-spacing: 0.15em;
+            margin: 2rem 0 0.75rem 1rem;
             font-weight: 700;
         }
 
         /* --- CONTENT AREA --- */
         .content {
             flex-grow: 1;
-            padding: 3rem 4rem;
+            padding: 0;
             overflow-y: auto;
+            scroll-padding-top: 4rem;
+            opacity: 0;
+            animation: fadeInContent 1s ease-out 1.8s forwards;
         }
+
+        @keyframes fadeInContent {
+            to { opacity: 1; }
+        }
+
+        .content::-webkit-scrollbar { width: 8px; }
+        .content::-webkit-scrollbar-track { background: var(--bg-base); }
+        .content::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 10px; }
+        .content::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,0.2); }
 
         .content-inner {
-            max-width: 800px;
+            max-width: 900px;
             margin: 0 auto;
-            padding-bottom: 5rem;
+            padding: 4rem 3rem 6rem;
         }
 
+        /* --- TYPOGRAPHY & LAYOUT --- */
         h2 {
             color: var(--text-primary);
-            font-size: 1.75rem;
+            font-size: 2.25rem;
             font-weight: 700;
-            margin-top: 3rem;
-            margin-bottom: 1.5rem;
-            padding-bottom: 0.5rem;
-            border-bottom: 1px solid var(--border-color);
+            margin-top: 4rem;
+            margin-bottom: 2rem;
+            letter-spacing: -0.02em;
         }
 
         h2:first-child { margin-top: 0; }
 
         h3 {
             color: var(--text-primary);
-            font-size: 1.2rem;
+            font-size: 1.25rem;
             font-weight: 600;
-            margin-top: 2rem;
             margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
         }
 
         h4 {
             color: var(--text-primary);
-            font-size: 1rem;
-            font-weight: 600;
+            font-size: 1.05rem;
+            font-weight: 500;
             margin-top: 1.5rem;
-            margin-bottom: 0.5rem;
+            margin-bottom: 0.75rem;
         }
 
-        p { margin-bottom: 1rem; color: var(--text-secondary); }
+        p { 
+            margin-bottom: 1.25rem; 
+            color: var(--text-secondary);
+            font-weight: 300;
+        }
 
         ul {
             list-style-type: none;
@@ -143,33 +210,86 @@
         }
 
         ul li {
-            margin-bottom: 0.75rem;
+            margin-bottom: 0.85rem;
             position: relative;
-            padding-left: 1.25rem;
+            padding-left: 1.5rem;
             color: var(--text-secondary);
+            font-weight: 300;
         }
 
         ul li::before {
-            content: '•';
-            color: var(--accent-color);
+            content: '';
             position: absolute;
             left: 0;
-            top: 0;
-            font-weight: bold;
+            top: 0.6rem;
+            width: 5px;
+            height: 5px;
+            border-radius: 50%;
+            background-color: var(--text-muted);
+            transition: background-color 0.3s ease;
         }
 
+        ul li:hover::before {
+            background-color: var(--accent);
+        }
+
+        strong {
+            color: var(--text-primary);
+            font-weight: 500;
+        }
+
+        /* --- RULE BLOCKS --- */
         .rule-block {
-            background-color: var(--bg-surface);
+            background-color: var(--bg-card);
             border: 1px solid var(--border-color);
-            border-radius: 6px;
-            padding: 1.5rem;
+            border-radius: 12px;
+            padding: 2rem;
             margin-bottom: 1.5rem;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
         }
 
-        .rule-block h3 {
-            margin-top: 0;
-            margin-bottom: 1rem;
-            color: var(--accent-color);
+        .rule-block::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 3px;
+            height: 100%;
+            background-color: transparent;
+            transition: background-color 0.3s ease;
+        }
+
+        .rule-block:hover {
+            background-color: var(--bg-card-hover);
+            border-color: var(--border-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .rule-block:hover::before {
+            background-color: var(--accent);
+        }
+
+        code {
+            background-color: rgba(255, 255, 255, 0.08);
+            color: var(--text-primary);
+            padding: 0.2em 0.4em;
+            border-radius: 4px;
+            font-family: monospace;
+            font-size: 0.9em;
+        }
+
+        .highlight-box {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px dashed var(--border-color);
+            border-radius: 8px;
+            padding: 1.5rem;
+            text-align: center;
+            margin: 2rem 0;
+            color: var(--text-secondary);
+            font-weight: 300;
         }
 
         @media (max-width: 768px) {
@@ -180,15 +300,27 @@
                 border-bottom: 1px solid var(--border-color);
                 max-height: 250px;
             }
-            .content { padding: 2rem; }
+            .content-inner {
+                padding: 2.5rem 1.5rem;
+            }
+            .rule-block {
+                padding: 1.5rem;
+            }
         }
     </style>
 </head>
 <body>
 
+    <!-- LOADER ANIMATION -->
+    <div id="loader">
+        <img src="logo.png" alt="VMod Logo" class="loader-logo">
+    </div>
+
     <aside class="sidebar">
         <div class="sidebar-header">
-            <h1>RÈGLEMENT VMOD</h1>
+            <img src="logo.png" alt="VMod">
+            <h1>VMOD</h1>
+            <p>Règlement Officiel</p>
         </div>
         <nav class="sidebar-nav">
             <ul>
@@ -221,7 +353,7 @@
                 <h2>Respect & Comportement</h2>
                 
                 <div class="rule-block">
-                    <h3>1. RESPECT DES JOUEURS</h3>
+                    <h3>1. Respect des Joueurs</h3>
                     <ul>
                         <li>Les insultes, provocations, harcèlements et comportements toxiques sont interdits.</li>
                         <li>Les propos discriminatoires, racistes, homophobes ou visant directement un joueur sont interdits.</li>
@@ -234,7 +366,7 @@
                 </div>
 
                 <div class="rule-block">
-                    <h3>14. WIN RP</h3>
+                    <h3>14. Win RP</h3>
                     <p>Le Win RP consiste à chercher constamment à gagner une scène RP, même si cela oblige à adopter un comportement incohérent ou à empêcher les autres joueurs de développer leur RP.</p>
                     <ul>
                         <li>Le Win RP est interdit.</li>
@@ -242,7 +374,7 @@
                 </div>
 
                 <div class="rule-block">
-                    <h3>19. FORCE RP</h3>
+                    <h3>19. Force RP</h3>
                     <p>Le Force RP consiste à imposer une action, une conséquence ou une situation à un autre joueur sans lui laisser une réelle possibilité de réagir ou de jouer la scène.</p>
                     <ul>
                         <li>Le Force RP est interdit.</li>
@@ -250,7 +382,7 @@
                 </div>
 
                 <div class="rule-block">
-                    <h3>23. MODIFICATEUR DE VOIX</h3>
+                    <h3>23. Modificateur de Voix</h3>
                     <ul>
                         <li>L'utilisation d'un modificateur de voix est strictement interdite sur le serveur.</li>
                         <li>Tout logiciel, programme ou outil permettant de modifier, transformer ou déformer sa voix est interdit, quelle que soit la raison RP.</li>
@@ -264,7 +396,7 @@
                 <h2>Scènes RP & Cohérence</h2>
 
                 <div class="rule-block">
-                    <h3>4. SCÈNES RP</h3>
+                    <h3>4. Scènes RP</h3>
                     <h4>Scène RP commencée = scène RP finie</h4>
                     <ul>
                         <li>À partir du moment où vous êtes engagé dans une scène RP, vous devez aller jusqu'au bout de celle-ci.</li>
@@ -273,21 +405,21 @@
                 </div>
 
                 <div class="rule-block">
-                    <h3>15. DOUBLE CALL DISCORD</h3>
+                    <h3>15. Double Call Discord</h3>
                     <ul>
                         <li>Le Double Call Discord est strictement interdit pendant une scène RP.</li>
                     </ul>
                 </div>
 
                 <div class="rule-block">
-                    <h3>18. PERSONNAGE & COHÉRENCE RP</h3>
+                    <h3>18. Personnage & Cohérence RP</h3>
                     <ul>
                         <li>Votre personnage doit avoir une personnalité et une histoire cohérentes.</li>
                     </ul>
                 </div>
 
                 <div class="rule-block">
-                    <h3>22. CHANGEMENT DE PERSONNAGE</h3>
+                    <h3>22. Changement de Personnage</h3>
                     <ul>
                         <li>Il est interdit de changer de personnage afin d'échapper aux conséquences d'une scène RP.</li>
                         <li>Changer de personnage ne permet pas d'annuler une scène ou ses conséquences.</li>
@@ -295,7 +427,7 @@
                 </div>
 
                 <div class="rule-block">
-                    <h3>24. NOM RP</h3>
+                    <h3>24. Nom RP</h3>
                     <ul>
                         <li>Votre nom RP doit rester cohérent et sérieux.</li>
                         <li>Les noms trolls, provocateurs, offensants ou volontairement absurdes sont interdits.</li>
@@ -309,9 +441,8 @@
                 <h2>Actions Illégales & Braquages</h2>
 
                 <div class="rule-block">
-                    <h3>5. ACTIONS ILLÉGALES</h3>
-                    <p>Lors d'une action illégale, le nombre maximal de participants est fixé à <strong>10 joueurs</strong>.</p>
-                    <p>Cela concerne notamment :</p>
+                    <h3>5. Actions Illégales</h3>
+                    <p>Lors d'une action illégale, le nombre maximal de participants est fixé à <strong>10 joueurs</strong>. Cela concerne notamment :</p>
                     <ul>
                         <li>Les braquages.</li>
                         <li>Les prises d'otages.</li>
@@ -324,7 +455,7 @@
                 </div>
 
                 <div class="rule-block">
-                    <h3>2. BRAQUAGES</h3>
+                    <h3>2. Braquages</h3>
                     <h4>L'attente de la Police</h4>
                     <ul>
                         <li>Pour TOUT braquage, il est obligatoire d'attendre l'arrivée de la Police.</li>
@@ -335,7 +466,7 @@
                 </div>
 
                 <div class="rule-block">
-                    <h3>6. DRIVE-BY</h3>
+                    <h3>6. Drive-By</h3>
                     <p>Le Drive-By correspond au fait de tirer depuis un véhicule en mouvement ou depuis un véhicule utilisé directement pendant une attaque.</p>
                     <ul>
                         <li>Le Drive-By est autorisé uniquement lorsqu'il existe une véritable raison RP et que celui-ci s'inscrit dans une scène déjà engagée.</li>
@@ -349,7 +480,7 @@
                 <h2>Prises d'Otages</h2>
 
                 <div class="rule-block">
-                    <h3>3. RÈGLES CONCERNANT LES OTAGES</h3>
+                    <h3>3. Règles concernant les otages</h3>
                     <ul>
                         <li>Il est interdit d'utiliser un ami, un membre de son groupe ou un complice en faisant croire aux forces de l'ordre qu'il s'agit d'un véritable otage.</li>
                         <li>Il est interdit de payer volontairement quelqu'un afin qu'il joue le rôle d'un faux otage.</li>
@@ -364,7 +495,7 @@
                 <h2>Forces de l'Ordre</h2>
 
                 <div class="rule-block">
-                    <h3>8. POLICE</h3>
+                    <h3>8. Police</h3>
                     <ul>
                         <li>La Police doit respecter son rôle.</li>
                         <li>Les agents doivent privilégier les interactions RP avant l'utilisation de la force.</li>
@@ -385,20 +516,17 @@
 
                     <h4>Mandats</h4>
                     <p>Les mandats doivent être utilisés dans un cadre RP sérieux. Un mandat doit reposer sur des éléments RP suffisants et ne doit jamais être délivré uniquement sur une intuition ou pour faciliter une enquête.</p>
-                    <p>Selon la situation, un mandat peut permettre :</p>
                     <ul>
                         <li>La perquisition d'une propriété.</li>
                         <li>La recherche d'un individu.</li>
                         <li>L'arrestation d'une personne.</li>
                         <li>La saisie de biens ou d'éléments liés à une enquête.</li>
                     </ul>
-                    <ul>
-                        <li>Les forces de l'ordre doivent respecter les limites du mandat. Un mandat n'autorise pas la Police à faire absolument ce qu'elle souhaite.</li>
-                    </ul>
+                    <p>Les forces de l'ordre doivent respecter les limites du mandat. Un mandat n'autorise pas la Police à faire absolument ce qu'elle souhaite.</p>
                 </div>
 
                 <div class="rule-block">
-                    <h3>7. COP BAIT</h3>
+                    <h3>7. Cop Bait</h3>
                     <p>Le Cop Bait consiste à provoquer volontairement les forces de l'ordre dans le seul but d'obtenir une course-poursuite, une intervention ou une confrontation.</p>
                     <ul>
                         <li>Le Cop Bait est strictement interdit.</li>
@@ -411,7 +539,7 @@
                 <h2>Véhicules & Conduite</h2>
 
                 <div class="rule-block">
-                    <h3>9. VÉHICULES DE FONCTION</h3>
+                    <h3>9. Véhicules de Fonction</h3>
                     <ul>
                         <li>Le vol d'un véhicule de fonction est interdit.</li>
                         <li><strong>Exception :</strong> le vol d'un véhicule de fonction est autorisé lorsqu'il est la conséquence directe d'une scène RP déjà engagée et qu'il existe un motif RP valable.<br>
@@ -421,7 +549,7 @@
                 </div>
 
                 <div class="rule-block">
-                    <h3>10. VÉHICULES & PNEUS CREVÉS</h3>
+                    <h3>10. Véhicules & Pneus Crevés</h3>
                     <p>Lorsqu'un véhicule perd plusieurs pneus, le joueur doit adapter sa conduite et prendre en compte l'état de son véhicule.</p>
                     <h4>Véhicules à 4 roues</h4>
                     <ul>
@@ -439,7 +567,7 @@
                 <h2>Règles des Métiers</h2>
 
                 <div class="rule-block">
-                    <h3>11. MÉTIERS</h3>
+                    <h3>11. Métiers</h3>
                     <p>Chaque joueur doit respecter le rôle de son métier.</p>
                     <p>Il est interdit de :</p>
                     <ul>
@@ -451,23 +579,14 @@
                 </div>
 
                 <div class="rule-block">
-                    <h3>12. MÉTIERS LÉGAUX & SERVICES PUBLICS</h3>
+                    <h3>12. Métiers Légaux & Services Publics</h3>
                     <p>Les métiers suivants sont considérés comme des métiers légaux / services publics :</p>
                     <ul>
-                        <li>Police (police)</li>
-                        <li>Commissaire de Police (chiefpolice)</li>
-                        <li>Unité Infiltrée / BAC (bac) — Métier VIP</li>
-                        <li>SWAT (swat) — Métier VIP</li>
-                        <li>Chien Policier (police_dog) — Métier VIP</li>
+                        <li>Police (police), Commissaire (chiefpolice), Unité Infiltrée / BAC (bac) — Métier VIP</li>
+                        <li>SWAT (swat) — Métier VIP, Chien Policier (police_dog) — Métier VIP</li>
                         <li>EMS / Ambulancier (ems)</li>
-                        <li>Maire (mayor)</li>
-                        <li>Secrétaire du Maire (mayorsecretaire)</li>
-                        <li>Garde du Maire (mayorguard)</li>
-                        <li>Agent de Sécurité (secu)</li>
-                        <li>Banquier (banker)</li>
-                        <li>Mécanicien (mechanic)</li>
-                        <li>Chauffeur de Taxi (taxi)</li>
-                        <li>Cuisinier (cook)</li>
+                        <li>Maire (mayor), Secrétaire (mayorsecretaire), Garde (mayorguard)</li>
+                        <li>Agent de Sécurité (secu), Banquier (banker), Mécanicien (mechanic), Chauffeur de Taxi (taxi), Cuisinier (cook)</li>
                     </ul>
                     
                     <h4>⚠️ Activités illégales interdites</h4>
@@ -476,12 +595,7 @@
                     </ul>
                     
                     <h4>Engagement dans un métier</h4>
-                    <p>Lorsque vous choisissez un métier, vous vous engagez à réellement jouer le rôle correspondant. Il est interdit de prendre un métier uniquement pour :</p>
-                    <ul>
-                        <li>Garder le métier sans effectuer ses fonctions.</li>
-                        <li>Bloquer volontairement une place disponible pour les autres joueurs.<br>
-                        <em>Exemple : vous prenez le métier EMS, mais vous refusez toutes les interventions et passez votre temps à faire autre chose en ville.</em></li>
-                    </ul>
+                    <p>Lorsque vous choisissez un métier, vous vous engagez à réellement jouer le rôle correspondant. Il est interdit de prendre un métier uniquement pour garder le métier sans effectuer ses fonctions ou bloquer volontairement une place disponible pour les autres joueurs.</p>
                 </div>
 
             </section>
@@ -490,7 +604,7 @@
                 <h2>Maire & Gouvernement</h2>
 
                 <div class="rule-block">
-                    <h3>13. MAIRE & GOUVERNEMENT</h3>
+                    <h3>13. Maire & Gouvernement</h3>
                     <h4>Lois du Maire</h4>
                     <ul>
                         <li>Le Maire est libre de créer et modifier les lois de la ville dans le cadre de son rôle. Cependant, toutes les lois doivent respecter le règlement général du serveur.</li>
@@ -514,14 +628,14 @@
                 <h2>Staff & Sanctions</h2>
 
                 <div class="rule-block">
-                    <h3>16. ÉCHANGE D'ARGENT RÉEL</h3>
+                    <h3>16. Échange d'Argent Réel</h3>
                     <ul>
                         <li>Il est strictement interdit d'acheter, vendre ou échanger de l'argent réel contre des éléments obtenus en jeu, en dehors des systèmes officiels proposés par le serveur.</li>
                     </ul>
                 </div>
 
                 <div class="rule-block">
-                    <h3>17. BUGS & EXPLOITS</h3>
+                    <h3>17. Bugs & Exploits</h3>
                     <p>Il est strictement interdit de :</p>
                     <ul>
                         <li>Exploiter un bug.</li>
@@ -530,17 +644,17 @@
                 </div>
 
                 <div class="rule-block">
-                    <h3>20. /REPORT & INTERVENTION DU STAFF</h3>
+                    <h3>20. /report & Intervention du Staff</h3>
                     <ul>
                         <li>En cas de problème, de doute ou de situation nécessitant l'intervention du Staff, les joueurs peuvent utiliser la commande <code>/report</code>.</li>
                         <li>Le /report doit être utilisé uniquement lorsqu'une intervention Staff est réellement nécessaire.</li>
                         <li>Il est interdit de spammer les reports, de faire de faux reports ou de les utiliser pour régler un conflit personnel.</li>
-                        <li>Lorsqu'un report est effectué, les joueurs doivent continuer leur scène RP tant qu'un membre du Staff ne leur demande pas de l'interrompre.</li>
+                        <li>Lorsqu'un report est effectué, les joueurs doivent continuer অন্তত leur scène RP tant qu'un membre du Staff ne leur demande pas de l'interrompre.</li>
                     </ul>
                 </div>
 
                 <div class="rule-block">
-                    <h3>21. SITUATIONS NON PRÉVUES PAR LE RÈGLEMENT</h3>
+                    <h3>21. Situations Non Prévues</h3>
                     <ul>
                         <li>En cas de situation non prévue par le règlement, les joueurs doivent privilégier le bon sens, le fair-play et la cohérence RP.</li>
                         <li>L'absence d'une interdiction explicite ne signifie pas qu'une action est automatiquement autorisée.</li>
@@ -549,7 +663,7 @@
                 </div>
 
                 <div class="rule-block">
-                    <h3>25. CHEAT & LOGICIELS EXTERNES</h3>
+                    <h3>25. Cheat & Logiciels Externes</h3>
                     <p>L'utilisation de cheats, logiciels de triche, injecteurs ou programmes donnant un avantage injuste est strictement interdite. Cela comprend notamment :</p>
                     <ul>
                         <li>Aimbot, Wallhack, ESP, No Recoil, Speedhack, Fly / Noclip non autorisé.</li>
@@ -559,9 +673,11 @@
                 </div>
 
                 <div class="rule-block">
-                    <h3>26. SANCTIONS</h3>
+                    <h3>26. Sanctions</h3>
                     <p>Le Staff peut appliquer différentes sanctions selon la gravité des faits :</p>
-                    <p style="text-align: center; font-weight: bold; padding: 1rem; background: var(--bg-surface-hover); border-radius: 4px; color: var(--text-primary);">Avertissement → Kick → Tempban → Ban → Sanction administrative</p>
+                    <div class="highlight-box">
+                        Avertissement → Kick → Tempban → Ban → Sanction administrative
+                    </div>
                     <p>La sanction dépend notamment :</p>
                     <ul>
                         <li>De la gravité de l'infraction.</li>
@@ -577,5 +693,14 @@
         </div>
     </main>
 
+    <script>
+        window.addEventListener('load', () => {
+            const loader = document.getElementById('loader');
+            setTimeout(() => {
+                loader.style.opacity = '0';
+                loader.style.visibility = 'hidden';
+            }, 1800);
+        });
+    </script>
 </body>
 </html>
