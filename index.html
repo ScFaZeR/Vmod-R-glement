@@ -5,17 +5,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Règlement - VMod</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
 
         :root {
-            --bg-dark: #0f0f11;
-            --bg-sidebar: #16161a;
-            --bg-card: #1c1c21;
-            --text-main: #d1d5db;
-            --text-title: #ffffff;
-            --primary-gold: #ffd700;
-            --primary-purple: #9d00ff;
-            --border-color: #2d2d33;
+            --bg-base: #121212;
+            --bg-surface: #1e1e1e;
+            --bg-surface-hover: #2c2c2c;
+            --text-primary: #e0e0e0;
+            --text-secondary: #a0a0a0;
+            --border-color: #333333;
+            --accent-color: #4a90e2;
         }
 
         * {
@@ -27,49 +26,19 @@
 
         body {
             font-family: 'Inter', sans-serif;
-            background-color: var(--bg-dark);
-            color: var(--text-main);
+            background-color: var(--bg-base);
+            color: var(--text-primary);
             display: flex;
             height: 100vh;
             overflow: hidden;
-            line-height: 1.7;
+            line-height: 1.6;
+            font-size: 15px;
         }
 
-        /* --- LOADER ANIMATION --- */
-        #loader {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100vh;
-            background-color: #000;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 9999;
-            transition: opacity 0.6s ease-out;
-        }
-
-        .loader-logo {
-            width: 200px;
-            animation: pulse 2s infinite, glow 2s infinite alternate;
-        }
-
-        @keyframes pulse {
-            0% { transform: scale(0.95); }
-            50% { transform: scale(1.05); }
-            100% { transform: scale(0.95); }
-        }
-
-        @keyframes glow {
-            0% { filter: drop-shadow(0 0 10px var(--primary-purple)); }
-            100% { filter: drop-shadow(0 0 30px var(--primary-gold)); }
-        }
-
-        /* --- SIDEBAR (STYLE GITBOOK) --- */
+        /* --- SIDEBAR --- */
         .sidebar {
             width: 280px;
-            background-color: var(--bg-sidebar);
+            background-color: var(--bg-surface);
             border-right: 1px solid var(--border-color);
             display: flex;
             flex-direction: column;
@@ -78,74 +47,58 @@
         }
 
         .sidebar::-webkit-scrollbar { width: 6px; }
-        .sidebar::-webkit-scrollbar-track { background: var(--bg-sidebar); }
+        .sidebar::-webkit-scrollbar-track { background: var(--bg-surface); }
         .sidebar::-webkit-scrollbar-thumb { background: var(--border-color); border-radius: 10px; }
 
         .sidebar-header {
             padding: 2rem 1.5rem;
-            text-align: center;
+            text-align: left;
             border-bottom: 1px solid var(--border-color);
         }
 
-        .sidebar-header img {
-            width: 80px;
-            margin-bottom: 1rem;
-        }
-
         .sidebar-header h1 {
-            color: var(--text-title);
-            font-size: 1.5rem;
-            font-weight: 800;
-            text-transform: uppercase;
-            background: linear-gradient(90deg, var(--primary-gold), var(--primary-purple));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+            color: var(--text-primary);
+            font-size: 1.25rem;
+            font-weight: 700;
+            letter-spacing: 0.5px;
         }
 
         .sidebar-nav {
-            padding: 1.5rem 0 3rem 0;
+            padding: 1.5rem 0;
         }
 
         .sidebar-nav ul { list-style: none; }
         .sidebar-nav li a {
             display: block;
-            padding: 0.7rem 1.5rem;
-            color: #9ca3af;
+            padding: 0.6rem 1.5rem;
+            color: var(--text-secondary);
             text-decoration: none;
             font-size: 0.95rem;
-            transition: all 0.2s;
+            font-weight: 500;
+            transition: all 0.2s ease;
             border-left: 3px solid transparent;
         }
 
         .sidebar-nav li a:hover {
-            color: var(--text-title);
-            background-color: rgba(255, 255, 255, 0.05);
-            border-left: 3px solid var(--primary-gold);
+            color: var(--text-primary);
+            background-color: var(--bg-surface-hover);
+            border-left: 3px solid var(--accent-color);
         }
 
-        /* SOUS-MENUS */
         .menu-category {
-            color: var(--text-title);
-            font-size: 0.8rem;
+            color: var(--text-primary);
+            font-size: 0.75rem;
             text-transform: uppercase;
-            letter-spacing: 0.05em;
+            letter-spacing: 0.1em;
             margin: 1.5rem 0 0.5rem 1.5rem;
-            font-weight: 800;
-            opacity: 0.7;
-        }
-
-        .sidebar-nav li.sub-item a {
-            padding-left: 2.5rem;
-            font-size: 0.88rem;
-            border-left: 3px solid rgba(255,255,255,0.02);
+            font-weight: 700;
         }
 
         /* --- CONTENT AREA --- */
         .content {
             flex-grow: 1;
-            padding: 3rem 5rem;
+            padding: 3rem 4rem;
             overflow-y: auto;
-            position: relative;
         }
 
         .content-inner {
@@ -155,75 +108,68 @@
         }
 
         h2 {
-            color: var(--text-title);
-            font-size: 2.2rem;
+            color: var(--text-primary);
+            font-size: 1.75rem;
+            font-weight: 700;
             margin-top: 3rem;
             margin-bottom: 1.5rem;
             padding-bottom: 0.5rem;
             border-bottom: 1px solid var(--border-color);
-            display: flex;
-            align-items: center;
-            gap: 12px;
         }
 
         h2:first-child { margin-top: 0; }
 
         h3 {
-            color: var(--primary-gold);
-            font-size: 1.4rem;
-            margin-top: 0;
+            color: var(--text-primary);
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-top: 2rem;
             margin-bottom: 1rem;
         }
 
-        .job-section {
-            padding-top: 2rem;
-            margin-top: 1rem;
-            border-top: 1px dashed var(--border-color);
+        h4 {
+            color: var(--text-primary);
+            font-size: 1rem;
+            font-weight: 600;
+            margin-top: 1.5rem;
+            margin-bottom: 0.5rem;
         }
 
-        .job-section:first-of-type {
-            border-top: none;
-            padding-top: 0;
+        p { margin-bottom: 1rem; color: var(--text-secondary); }
+
+        ul {
+            list-style-type: none;
+            margin-bottom: 1.5rem;
         }
 
-        p { margin-bottom: 1rem; }
-
-        ul.rules-list {
-            list-style: none;
-            background-color: var(--bg-card);
-            border: 1px solid var(--border-color);
-            border-radius: 8px;
-            padding: 1.5rem;
-            margin-bottom: 2rem;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        }
-
-        ul.rules-list li {
-            margin-bottom: 1rem;
+        ul li {
+            margin-bottom: 0.75rem;
             position: relative;
-            padding-left: 1.5rem;
+            padding-left: 1.25rem;
+            color: var(--text-secondary);
         }
 
-        ul.rules-list li:last-child { margin-bottom: 0; }
-        ul.rules-list li::before {
-            content: '■';
-            color: var(--primary-purple);
+        ul li::before {
+            content: '•';
+            color: var(--accent-color);
             position: absolute;
             left: 0;
-            top: 2px;
-            font-size: 0.8rem;
+            top: 0;
+            font-weight: bold;
         }
 
-        strong { color: var(--text-title); }
+        .rule-block {
+            background-color: var(--bg-surface);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
 
-        /* Style pour les commandes */
-        code {
-            background-color: rgba(255, 215, 0, 0.1);
-            color: var(--primary-gold);
-            padding: 2px 6px;
-            border-radius: 4px;
-            font-family: monospace;
-            font-size: 0.95em;
+        .rule-block h3 {
+            margin-top: 0;
+            margin-bottom: 1rem;
+            color: var(--accent-color);
         }
 
         @media (max-width: 768px) {
@@ -232,7 +178,7 @@
                 width: 100%;
                 border-right: none;
                 border-bottom: 1px solid var(--border-color);
-                max-height: 300px;
+                max-height: 250px;
             }
             .content { padding: 2rem; }
         }
@@ -240,37 +186,30 @@
 </head>
 <body>
 
-    <div id="loader">
-        <img src="logo.png" alt="VMod Logo" class="loader-logo">
-    </div>
-
     <aside class="sidebar">
         <div class="sidebar-header">
-            <img src="logo.png" alt="VMod">
-            <h1>Règlement</h1>
+            <h1>RÈGLEMENT VMOD</h1>
         </div>
         <nav class="sidebar-nav">
             <ul>
-                <!-- Règles Générales -->
-                <li><a href="#lexique">📖 Lexique RP</a></li>
-                <li><a href="#commandes">⌨️ Commandes Utiles</a></li>
-                <li><a href="#zones">🌍 Zones & Environnement</a></li>
-                <li><a href="#illegal">🥷 L'Illégal & Factions</a></li>
-                <li><a href="#braquages">🏦 Braquages & Véhicules</a></li>
+                <div class="menu-category">Général</div>
+                <li><a href="#respect">Respect & Comportement</a></li>
+                <li><a href="#scenes-rp">Scènes RP & Cohérence</a></li>
                 
-                <!-- Section Métiers -->
-                <div class="menu-category">💼 Les Métiers</div>
-                <li class="sub-item"><a href="#job-psychopathe">🔪 Psychopathe VIP</a></li>
-                <li class="sub-item"><a href="#job-hitman">🎯 Hitman</a></li>
-                <li class="sub-item"><a href="#job-infiltre">🕵️ Unité Infiltrée VIP</a></li>
-                <li class="sub-item"><a href="#job-k9">🐕 Chien K9 VIP</a></li>
-                <li class="sub-item"><a href="#job-maire">🏛️ Maire & Garde</a></li>
-                <li class="sub-item"><a href="#job-ems">🚑 EMS (Secouristes)</a></li>
-                <li class="sub-item"><a href="#job-banquier">🏦 Banquier</a></li>
-                <li class="sub-item"><a href="#job-hacker">💻 Hacker</a></li>
-                <li class="sub-item"><a href="#job-gundealer">🔫 Gun Dealer</a></li>
-                <li class="sub-item"><a href="#job-voleur">🪓 Voleur / VIP</a></li>
-                <li class="sub-item"><a href="#job-sdf">📦 SDF</a></li>
+                <div class="menu-category">L'Illégal</div>
+                <li><a href="#illegal">Actions Illégales & Braquages</a></li>
+                <li><a href="#otages">Prises d'Otages</a></li>
+                
+                <div class="menu-category">Police & Véhicules</div>
+                <li><a href="#police">Forces de l'Ordre</a></li>
+                <li><a href="#vehicules">Véhicules & Conduite</a></li>
+                
+                <div class="menu-category">Métiers & Gouvernement</div>
+                <li><a href="#metiers">Règles des Métiers</a></li>
+                <li><a href="#gouvernement">Maire & Gouvernement</a></li>
+                
+                <div class="menu-category">Administration</div>
+                <li><a href="#admin">Staff & Sanctions</a></li>
             </ul>
         </nav>
     </aside>
@@ -278,149 +217,359 @@
     <main class="content">
         <div class="content-inner">
 
-            <section id="lexique">
-                <h2>📖 Lexique RP (Les Bases)</h2>
-                <ul class="rules-list">
-                    <li><strong>HRP (Hors RolePlay) :</strong> Tout ce qui ne concerne pas votre personnage (vie réelle, discord, bugs). Il est interdit de parler HRP en jeu.</li>
-                    <li><strong>Metagaming :</strong> Utiliser des informations obtenues HRP pour s'en servir en RP.</li>
-                    <li><strong>Powergaming :</strong> Réaliser des actions physiquement impossibles ou irréalistes.</li>
-                    <li><strong>Fear RP (La Peur) :</strong> Vous devez simuler la peur pour votre vie. Face à une arme sans moyen de vous défendre, vous coopérez.</li>
-                    <li><strong>Pain RP (La Douleur) :</strong> Jouez la douleur suite à un accident, une chute ou des blessures.</li>
-                    <li><strong>Mass RP :</strong> La ville n'est pas vide (simulation de PNJ). Pas d'armes lourdes en centre-ville sans raison majeure.<br><em>Exemple : Braquer quelqu’un ou sortir une arme devant un commissariat en pensant qu’il n’y a personne autour est interdit. Même si aucun joueur n’est présent, vous devez considérer que des policiers, passants et témoins PNJ se trouvent dans la zone.</em></li>
-                    <li><strong>Freekill / Freeshoot :</strong> Tuer ou tirer sans raison RP valable. La violence est le dernier recours.</li>
-                    <li><strong>NLR (New Life Rule) & Mort :</strong> Sur VMod, il n'y a pas de mort RP définitive (Wipe). En cas de mort, vous oubliez TOUT de la scène. De plus, <strong>vous perdez l'intégralité de votre inventaire</strong> (armes, objets, etc.) à l'exception de votre argent (liquide propre et argent sale) que vous conservez sur vous.</li>
-                </ul>
+            <section id="respect">
+                <h2>Respect & Comportement</h2>
+                
+                <div class="rule-block">
+                    <h3>1. RESPECT DES JOUEURS</h3>
+                    <ul>
+                        <li>Les insultes, provocations, harcèlements et comportements toxiques sont interdits.</li>
+                        <li>Les propos discriminatoires, racistes, homophobes ou visant directement un joueur sont interdits.</li>
+                        <li>Tuer ou attaquer un joueur sans raison RP valable est interdit.</li>
+                    </ul>
+                    <h4>CarKill</h4>
+                    <ul>
+                        <li>Utiliser volontairement son véhicule pour tuer ou blesser un joueur sans raison RP valable est interdit.</li>
+                    </ul>
+                </div>
+
+                <div class="rule-block">
+                    <h3>14. WIN RP</h3>
+                    <p>Le Win RP consiste à chercher constamment à gagner une scène RP, même si cela oblige à adopter un comportement incohérent ou à empêcher les autres joueurs de développer leur RP.</p>
+                    <ul>
+                        <li>Le Win RP est interdit.</li>
+                    </ul>
+                </div>
+
+                <div class="rule-block">
+                    <h3>19. FORCE RP</h3>
+                    <p>Le Force RP consiste à imposer une action, une conséquence ou une situation à un autre joueur sans lui laisser une réelle possibilité de réagir ou de jouer la scène.</p>
+                    <ul>
+                        <li>Le Force RP est interdit.</li>
+                    </ul>
+                </div>
+
+                <div class="rule-block">
+                    <h3>23. MODIFICATEUR DE VOIX</h3>
+                    <ul>
+                        <li>L'utilisation d'un modificateur de voix est strictement interdite sur le serveur.</li>
+                        <li>Tout logiciel, programme ou outil permettant de modifier, transformer ou déformer sa voix est interdit, quelle que soit la raison RP.</li>
+                        <li>Le non-respect de cette règle pourra entraîner une sanction.</li>
+                    </ul>
+                </div>
+
             </section>
 
-            <section id="commandes">
-                <h2>⌨️ Commandes Utiles</h2>
-                <p>Voici la liste des commandes essentielles à utiliser dans le chat (touche T) pour vos actions en jeu :</p>
-                <ul class="rules-list">
-                    <li><code>/rename [Prénom] [Nom]</code> : Permet de vous renommer (ex: <i>/rename Tony Montana</i>).</li>
-                    <li><code>/ano [Message]</code> : Envoie un message de manière totalement anonyme (ex: <i>/ano salut</i>).</li>
-                    <li><code>/dropmoney [Somme]</code> : Permet de jeter de l'argent au sol (ex: <i>/dropmoney 5000</i>).</li>
-                    <li><code>/report</code> : Ouvre un ticket pour contacter l'équipe de modération (Staff).</li>
-                    <li><code>/pets</code> : Ouvre le menu pour faire apparaître et gérer vos familiers.</li>
-                    <li><code>/toolgun</code> : Ouvre le menu permettant de poser des objets (props) dans le monde.</li>
-                    <li><code>/id</code> : Affiche votre identifiant unique de joueur en jeu.</li>
-                </ul>
-            </section>
+            <section id="scenes-rp">
+                <h2>Scènes RP & Cohérence</h2>
 
-            <section id="zones">
-                <h2>🌍 Zones & Environnement</h2>
-                <ul class="rules-list">
-                    <li><strong>Safe Zone :</strong> Zone protégée dans laquelle les actions agressives ou criminelles sont interdites afin d’éviter les abus et de laisser les joueurs accéder à certains lieux importants en sécurité.<br><em>Exemple : Il est interdit de braquer, kidnapper, frapper ou tirer sur un joueur dans une Safe Zone, comme un point de spawn, un hôpital ou une zone définie comme protégée par le serveur.</em></li>
-                </ul>
+                <div class="rule-block">
+                    <h3>4. SCÈNES RP</h3>
+                    <h4>Scène RP commencée = scène RP finie</h4>
+                    <ul>
+                        <li>À partir du moment où vous êtes engagé dans une scène RP, vous devez aller jusqu'au bout de celle-ci.</li>
+                        <li>Il est interdit de quitter, d'esquiver ou d'abandonner volontairement une scène afin d'en éviter les conséquences.</li>
+                    </ul>
+                </div>
+
+                <div class="rule-block">
+                    <h3>15. DOUBLE CALL DISCORD</h3>
+                    <ul>
+                        <li>Le Double Call Discord est strictement interdit pendant une scène RP.</li>
+                    </ul>
+                </div>
+
+                <div class="rule-block">
+                    <h3>18. PERSONNAGE & COHÉRENCE RP</h3>
+                    <ul>
+                        <li>Votre personnage doit avoir une personnalité et une histoire cohérentes.</li>
+                    </ul>
+                </div>
+
+                <div class="rule-block">
+                    <h3>22. CHANGEMENT DE PERSONNAGE</h3>
+                    <ul>
+                        <li>Il est interdit de changer de personnage afin d'échapper aux conséquences d'une scène RP.</li>
+                        <li>Changer de personnage ne permet pas d'annuler une scène ou ses conséquences.</li>
+                    </ul>
+                </div>
+
+                <div class="rule-block">
+                    <h3>24. NOM RP</h3>
+                    <ul>
+                        <li>Votre nom RP doit rester cohérent et sérieux.</li>
+                        <li>Les noms trolls, provocateurs, offensants ou volontairement absurdes sont interdits.</li>
+                        <li>Le Staff peut demander à un joueur de modifier son nom RP si celui-ci n'est pas adapté au serveur.</li>
+                    </ul>
+                </div>
+
             </section>
 
             <section id="illegal">
-                <h2>🥷 L'Illégal & Factions</h2>
-                <ul class="rules-list">
-                    <li><strong>Diplomatie :</strong> Les alliances entre groupes criminels sont STRICTEMENT INTERDITES. Seules des trêves commerciales sont tolérées.</li>
-                    <li><strong>Racket et Extorsion :</strong> Vous pouvez braquer n’importe qui, y compris lors d’une opération de service public. Cependant, attention : si vous vous faites attraper ou identifier, vous vous exposez à de très lourdes sanctions en jeu.</li>
-                    <li><strong>Limites de Vol (Racket) :</strong> Lors d'un racket, vous ne pouvez voler que <strong>50% maximum</strong> de l'argent liquide de votre victime.</li>
-                    <li><strong>Limites d'Inventaire :</strong> Vous êtes autorisé à dérober <strong>UN SEUL objet</strong> à la personne ciblée. Les armes de poing et blanches peuvent être volées, mais <strong>le vol d'armes lourdes est strictement interdit</strong>.</li>
-                </ul>
+                <h2>Actions Illégales & Braquages</h2>
+
+                <div class="rule-block">
+                    <h3>5. ACTIONS ILLÉGALES</h3>
+                    <p>Lors d'une action illégale, le nombre maximal de participants est fixé à <strong>10 joueurs</strong>.</p>
+                    <p>Cela concerne notamment :</p>
+                    <ul>
+                        <li>Les braquages.</li>
+                        <li>Les prises d'otages.</li>
+                        <li>Les fusillades.</li>
+                        <li>Les kidnappings.</li>
+                        <li>Les règlements de comptes.</li>
+                        <li>Les attaques contre une organisation ou un groupe.</li>
+                        <li>Les actions contre les forces de l'ordre.</li>
+                    </ul>
+                </div>
+
+                <div class="rule-block">
+                    <h3>2. BRAQUAGES</h3>
+                    <h4>L'attente de la Police</h4>
+                    <ul>
+                        <li>Pour TOUT braquage, il est obligatoire d'attendre l'arrivée de la Police.</li>
+                        <li>Minimum : 5 minutes d'attente avant de prendre la fuite si la Police n'est pas là.</li>
+                        <li>Il est interdit de braquer un joueur uniquement pour récupérer son argent ou ses objets sans créer de véritable scène.</li>
+                        <li>Tirer immédiatement sans interaction préalable peut être considéré comme du Free Kill.</li>
+                    </ul>
+                </div>
+
+                <div class="rule-block">
+                    <h3>6. DRIVE-BY</h3>
+                    <p>Le Drive-By correspond au fait de tirer depuis un véhicule en mouvement ou depuis un véhicule utilisé directement pendant une attaque.</p>
+                    <ul>
+                        <li>Le Drive-By est autorisé uniquement lorsqu'il existe une véritable raison RP et que celui-ci s'inscrit dans une scène déjà engagée.</li>
+                        <li>Il est interdit de circuler dans la ville en tirant gratuitement sur des joueurs.</li>
+                    </ul>
+                </div>
+
             </section>
 
-            <section id="braquages">
-                <h2>🏦 Braquages & Véhicules</h2>
-                <ul class="rules-list">
-                    <li><strong>Braquage de Banque (Fleeca) :</strong> Il est obligatoire de posséder <strong>au moins 1 otage</strong>.</li>
-                    <li><strong>L'Attente de la Police :</strong> Pour TOUT braquage, <strong>il est obligatoire d'attendre l'arrivée de la police</strong> (Max 5 minutes d'attente avant fuite si la police n'est pas là).</li>
-                    <li><strong>Véhicules de Fonction :</strong> Il est <strong>strictement interdit</strong> de voler des véhicules de fonction (véhicules de Police, EMS, Gouvernement).</li>
-                    <li><strong>Le PIT (Percuter un fuyard) :</strong> Autorisé pour les forces de l'ordre uniquement après <strong>5 minutes</strong> de course-poursuite.</li>
-                    <li><strong>Le Plan Mules (Guet-apens) :</strong> Les fuyards sont autorisés à utiliser un "Plan Mules" (bloquer la route).</li>
-                    <li><strong>Annulation du délai de PIT :</strong> Dès qu'un Plan Mules est activé, cela donne <strong>l'autorisation immédiate aux forces de l'ordre d'effectuer des PIT</strong>.</li>
-                </ul>
+            <section id="otages">
+                <h2>Prises d'Otages</h2>
+
+                <div class="rule-block">
+                    <h3>3. RÈGLES CONCERNANT LES OTAGES</h3>
+                    <ul>
+                        <li>Il est interdit d'utiliser un ami, un membre de son groupe ou un complice en faisant croire aux forces de l'ordre qu'il s'agit d'un véritable otage.</li>
+                        <li>Il est interdit de payer volontairement quelqu'un afin qu'il joue le rôle d'un faux otage.</li>
+                        <li>L'otage doit réellement être soumis à la prise d'otage et jouer son FearRP.</li>
+                        <li>Il est interdit de tuer gratuitement un otage qui a correctement coopéré sans raison RP valable.</li>
+                    </ul>
+                </div>
+
+            </section>
+
+            <section id="police">
+                <h2>Forces de l'Ordre</h2>
+
+                <div class="rule-block">
+                    <h3>8. POLICE</h3>
+                    <ul>
+                        <li>La Police doit respecter son rôle.</li>
+                        <li>Les agents doivent privilégier les interactions RP avant l'utilisation de la force.</li>
+                        <li>Il est interdit d'utiliser son grade ou ses équipements pour son avantage personnel.</li>
+                        <li>Un policier doit avoir un motif RP valable pour procéder à une fouille, une arrestation ou une saisie.</li>
+                    </ul>
+                    
+                    <h4>Contrôles et arrestations</h4>
+                    <p>Une arrestation doit être justifiée par des éléments RP. Un agent peut notamment intervenir en cas de :</p>
+                    <ul>
+                        <li>Flagrant délit.</li>
+                        <li>Comportement suspect accompagné d'éléments cohérents.</li>
+                        <li>Signalement ou témoignage exploitable en RP.</li>
+                        <li>Recherche d'un individu.</li>
+                        <li>Mandat valide.</li>
+                        <li>Infraction constatée directement par les forces de l'ordre.</li>
+                    </ul>
+
+                    <h4>Mandats</h4>
+                    <p>Les mandats doivent être utilisés dans un cadre RP sérieux. Un mandat doit reposer sur des éléments RP suffisants et ne doit jamais être délivré uniquement sur une intuition ou pour faciliter une enquête.</p>
+                    <p>Selon la situation, un mandat peut permettre :</p>
+                    <ul>
+                        <li>La perquisition d'une propriété.</li>
+                        <li>La recherche d'un individu.</li>
+                        <li>L'arrestation d'une personne.</li>
+                        <li>La saisie de biens ou d'éléments liés à une enquête.</li>
+                    </ul>
+                    <ul>
+                        <li>Les forces de l'ordre doivent respecter les limites du mandat. Un mandat n'autorise pas la Police à faire absolument ce qu'elle souhaite.</li>
+                    </ul>
+                </div>
+
+                <div class="rule-block">
+                    <h3>7. COP BAIT</h3>
+                    <p>Le Cop Bait consiste à provoquer volontairement les forces de l'ordre dans le seul but d'obtenir une course-poursuite, une intervention ou une confrontation.</p>
+                    <ul>
+                        <li>Le Cop Bait est strictement interdit.</li>
+                    </ul>
+                </div>
+
+            </section>
+
+            <section id="vehicules">
+                <h2>Véhicules & Conduite</h2>
+
+                <div class="rule-block">
+                    <h3>9. VÉHICULES DE FONCTION</h3>
+                    <ul>
+                        <li>Le vol d'un véhicule de fonction est interdit.</li>
+                        <li><strong>Exception :</strong> le vol d'un véhicule de fonction est autorisé lorsqu'il est la conséquence directe d'une scène RP déjà engagée et qu'il existe un motif RP valable.<br>
+                        <em>Exemple : Après une fusillade, votre véhicule est inutilisable et vous prenez un véhicule de Police pour fuir.</em></li>
+                        <li>Il est donc interdit de voler gratuitement un véhicule de Police, EMS ou Gouvernement simplement parce qu'il est disponible.</li>
+                    </ul>
+                </div>
+
+                <div class="rule-block">
+                    <h3>10. VÉHICULES & PNEUS CREVÉS</h3>
+                    <p>Lorsqu'un véhicule perd plusieurs pneus, le joueur doit adapter sa conduite et prendre en compte l'état de son véhicule.</p>
+                    <h4>Véhicules à 4 roues</h4>
+                    <ul>
+                        <li><strong>2 pneus crevés ou plus :</strong> vous ne pouvez plus continuer à accélérer normalement ou poursuivre une course-poursuite. Vous devez donc vous arrêter dès que la situation vous permet de le faire en sécurité.</li>
+                    </ul>
+                    <h4>Motos</h4>
+                    <ul>
+                        <li>Une moto ayant perdu un seul pneu est considérée comme inutilisable. Vous devez vous arrêter et ne pouvez pas poursuivre votre route avec celle-ci.</li>
+                    </ul>
+                </div>
+
             </section>
 
             <section id="metiers">
-                <h2>💼 Les Métiers</h2>
-                
-                <div id="job-psychopathe" class="job-section">
-                    <h3>🔪 Psychopathe VIP</h3>
-                    <ul class="rules-list">
-                        <li><strong>Discrétion absolue :</strong> Agissez dans l'ombre. Il est interdit de tuer en pleine rue. Kidnappez vos victimes pour les emmener dans un lieu clos.</li>
-                        <li><strong>Scènes de torture :</strong> Toute scène de torture doit rester fair-play du début à la fin. La durée maximale d'une scène de torture est de <strong>15 minutes</strong>. Si vous sentez que le joueur en face est mal à l'aise ou ne semble plus apprécier la scène, vous devez la raccourcir immédiatement et conclure l'action proprement.</li>
+                <h2>Règles des Métiers</h2>
+
+                <div class="rule-block">
+                    <h3>11. MÉTIERS</h3>
+                    <p>Chaque joueur doit respecter le rôle de son métier.</p>
+                    <p>Il est interdit de :</p>
+                    <ul>
+                        <li>Utiliser un métier uniquement pour obtenir ses avantages.</li>
+                        <li>Utiliser ses outils professionnels pour son intérêt personnel.</li>
+                        <li>Abandonner volontairement son rôle pour participer à une scène qui n'a aucun rapport.</li>
+                        <li>Utiliser des véhicules de service à des fins personnelles sans raison RP.</li>
                     </ul>
                 </div>
 
-                <div id="job-hitman" class="job-section">
-                    <h3>🎯 Hitman</h3>
-                    <ul class="rules-list">
-                        <li><strong>Prise de contrat :</strong> S'effectue en jeu via le système de ciblage (ox_target).</li>
-                        <li><strong>Exécution :</strong> L'objectif principal est la discrétion et la beauté de l'exécution.</li>
+                <div class="rule-block">
+                    <h3>12. MÉTIERS LÉGAUX & SERVICES PUBLICS</h3>
+                    <p>Les métiers suivants sont considérés comme des métiers légaux / services publics :</p>
+                    <ul>
+                        <li>Police (police)</li>
+                        <li>Commissaire de Police (chiefpolice)</li>
+                        <li>Unité Infiltrée / BAC (bac) — Métier VIP</li>
+                        <li>SWAT (swat) — Métier VIP</li>
+                        <li>Chien Policier (police_dog) — Métier VIP</li>
+                        <li>EMS / Ambulancier (ems)</li>
+                        <li>Maire (mayor)</li>
+                        <li>Secrétaire du Maire (mayorsecretaire)</li>
+                        <li>Garde du Maire (mayorguard)</li>
+                        <li>Agent de Sécurité (secu)</li>
+                        <li>Banquier (banker)</li>
+                        <li>Mécanicien (mechanic)</li>
+                        <li>Chauffeur de Taxi (taxi)</li>
+                        <li>Cuisinier (cook)</li>
+                    </ul>
+                    
+                    <h4>⚠️ Activités illégales interdites</h4>
+                    <ul>
+                        <li>Lorsqu'un joueur est en service dans l'un de ces métiers, il lui est strictement interdit de participer volontairement à une activité illégale.</li>
+                    </ul>
+                    
+                    <h4>Engagement dans un métier</h4>
+                    <p>Lorsque vous choisissez un métier, vous vous engagez à réellement jouer le rôle correspondant. Il est interdit de prendre un métier uniquement pour :</p>
+                    <ul>
+                        <li>Garder le métier sans effectuer ses fonctions.</li>
+                        <li>Bloquer volontairement une place disponible pour les autres joueurs.<br>
+                        <em>Exemple : vous prenez le métier EMS, mais vous refusez toutes les interventions et passez votre temps à faire autre chose en ville.</em></li>
                     </ul>
                 </div>
 
-                <div id="job-infiltre" class="job-section">
-                    <h3>🕵️ Unité Infiltrée VIP</h3>
-                    <ul class="rules-list">
-                        <li><strong>Risques :</strong> Si le groupe criminel découvre votre identité, ils ont l'autorisation totale de vous abattre (Mort RP justifiée).</li>
+            </section>
+
+            <section id="gouvernement">
+                <h2>Maire & Gouvernement</h2>
+
+                <div class="rule-block">
+                    <h3>13. MAIRE & GOUVERNEMENT</h3>
+                    <h4>Lois du Maire</h4>
+                    <ul>
+                        <li>Le Maire est libre de créer et modifier les lois de la ville dans le cadre de son rôle. Cependant, toutes les lois doivent respecter le règlement général du serveur.</li>
+                        <li>Si le Maire instaure une dictature, il peut mettre en place des lois plus strictes et autoritaires, à condition que celles-ci restent cohérentes avec la scène RP en cours.</li>
+                    </ul>
+                    
+                    <h4>Peine de mort</h4>
+                    <ul>
+                        <li>Dans le cadre d'une dictature officiellement instaurée en RP, le Maire est autorisé à instaurer et à appliquer la peine de mort.</li>
+                    </ul>
+                    
+                    <h4>Révolte du peuple</h4>
+                    <ul>
+                        <li>Une dictature entraîne également des conséquences. Si le Maire devient tyrannique, abuse de son pouvoir ou impose des lois extrêmement autoritaires, la population peut organiser une révolte contre le Gouvernement.</li>
                     </ul>
                 </div>
 
-                <div id="job-k9" class="job-section">
-                    <h3>🐕 Chien K9 VIP</h3>
-                    <ul class="rules-list">
-                        <li><strong>Déploiement :</strong> Le chien K9 doit obligatoirement patrouiller accompagné d’un maître. Il ne peut pas être déployé seul.</li>
-                        <li><strong>Comportement :</strong> Vous pouvez attaquer face à une menace immédiate. Toute violence gratuite sera lourdement sanctionnée.</li>
-                        <li><strong>Responsabilité du maître :</strong> Toute action effectuée par le K9 sur ordre direct de son maître engage la responsabilité de ce dernier. Les conséquences et sanctions liées à cette action pourront donc être attribuées au maître.</li>
+            </section>
+
+            <section id="admin">
+                <h2>Staff & Sanctions</h2>
+
+                <div class="rule-block">
+                    <h3>16. ÉCHANGE D'ARGENT RÉEL</h3>
+                    <ul>
+                        <li>Il est strictement interdit d'acheter, vendre ou échanger de l'argent réel contre des éléments obtenus en jeu, en dehors des systèmes officiels proposés par le serveur.</li>
                     </ul>
                 </div>
 
-                <div id="job-maire" class="job-section">
-                    <h3>🏛️ Maire & Garde</h3>
-                    <ul class="rules-list">
-                        <li><strong>Pouvoirs :</strong> Le Maire gère la ville et ses lois via son application. Il peut créer, modifier ou supprimer certaines lois et, selon ses décisions, instaurer une dictature.</li>
-                        <li><strong>Renversement :</strong> Les citoyens ou groupes criminels peuvent s'organiser pour le renverser en engageant un Hitman ou en organisant une prise d'otage.</li>
+                <div class="rule-block">
+                    <h3>17. BUGS & EXPLOITS</h3>
+                    <p>Il est strictement interdit de :</p>
+                    <ul>
+                        <li>Exploiter un bug.</li>
+                        <li>Utiliser un glitch pour obtenir un avantage.</li>
                     </ul>
                 </div>
 
-                <div id="job-ems" class="job-section">
-                    <h3>🚑 EMS (Secouristes)</h3>
-                    <ul class="rules-list">
-                        <li><strong>Intouchables :</strong> Ils sont protégés et totalement neutres. Il est <strong>strictement interdit</strong> de les braquer ou de voler leurs véhicules.</li>
+                <div class="rule-block">
+                    <h3>20. /REPORT & INTERVENTION DU STAFF</h3>
+                    <ul>
+                        <li>En cas de problème, de doute ou de situation nécessitant l'intervention du Staff, les joueurs peuvent utiliser la commande <code>/report</code>.</li>
+                        <li>Le /report doit être utilisé uniquement lorsqu'une intervention Staff est réellement nécessaire.</li>
+                        <li>Il est interdit de spammer les reports, de faire de faux reports ou de les utiliser pour régler un conflit personnel.</li>
+                        <li>Lorsqu'un report est effectué, les joueurs doivent continuer leur scène RP tant qu'un membre du Staff ne leur demande pas de l'interrompre.</li>
                     </ul>
                 </div>
 
-                <div id="job-banquier" class="job-section">
-                    <h3>🏦 Banquier</h3>
-                    <ul class="rules-list">
-                        <li><strong>Gestion des Coffres :</strong> Accès à la salle des coffres pour installer les "printers" de leurs clients.</li>
-                        <li><strong>Pression RP :</strong> En cas de braquage, vous devez jouer un <strong>Fear RP strict</strong>, votre vie étant menacée.</li>
+                <div class="rule-block">
+                    <h3>21. SITUATIONS NON PRÉVUES PAR LE RÈGLEMENT</h3>
+                    <ul>
+                        <li>En cas de situation non prévue par le règlement, les joueurs doivent privilégier le bon sens, le fair-play et la cohérence RP.</li>
+                        <li>L'absence d'une interdiction explicite ne signifie pas qu'une action est automatiquement autorisée.</li>
+                        <li>Le Staff conserve le droit d'intervenir lorsqu'une action constitue un abus ou nuit à l'expérience RP des autres joueurs.</li>
                     </ul>
                 </div>
 
-                <div id="job-hacker" class="job-section">
-                    <h3>💻 Hacker</h3>
-                    <ul class="rules-list">
-                        <li><strong>Exception de Fuite :</strong> <strong>Le Hacker n'a pas l'obligation d'attendre la police 5 minutes</strong>. Il peut fuir immédiatement.</li>
+                <div class="rule-block">
+                    <h3>25. CHEAT & LOGICIELS EXTERNES</h3>
+                    <p>L'utilisation de cheats, logiciels de triche, injecteurs ou programmes donnant un avantage injuste est strictement interdite. Cela comprend notamment :</p>
+                    <ul>
+                        <li>Aimbot, Wallhack, ESP, No Recoil, Speedhack, Fly / Noclip non autorisé.</li>
+                        <li>Toute modification ou assistance externe donnant un avantage injuste.</li>
                     </ul>
+                    <p><strong>Toute utilisation de cheat peut entraîner un bannissement définitif du serveur.</strong></p>
                 </div>
 
-                <div id="job-gundealer" class="job-section">
-                    <h3>🔫 Gun Dealer</h3>
-                    <ul class="rules-list">
-                        <li><strong>Appropriation :</strong> Autorisés à s'approprier (claim) les Ammu-Nations via les portes configurées.</li>
+                <div class="rule-block">
+                    <h3>26. SANCTIONS</h3>
+                    <p>Le Staff peut appliquer différentes sanctions selon la gravité des faits :</p>
+                    <p style="text-align: center; font-weight: bold; padding: 1rem; background: var(--bg-surface-hover); border-radius: 4px; color: var(--text-primary);">Avertissement → Kick → Tempban → Ban → Sanction administrative</p>
+                    <p>La sanction dépend notamment :</p>
+                    <ul>
+                        <li>De la gravité de l'infraction.</li>
+                        <li>Des antécédents du joueur.</li>
+                        <li>De la récidive.</li>
+                        <li>De l'impact sur la scène RP.</li>
                     </ul>
-                </div>
-
-                <div id="job-voleur" class="job-section">
-                    <h3>🪓 Voleur / Voleur VIP</h3>
-                    <ul class="rules-list">
-                        <li><strong>Cohérence (Crowbar) :</strong> L'usage du pied-de-biche doit être cohérent. Si l'action est trop risquée (cramée), fuyez.</li>
-                        <li><strong>Keypad Cracker :</strong> Vous disposez d'un outil permettant de pirater les keypads pour forcer et ouvrir les portes verrouillées d'une propriété.</li>
-                        <li><strong>Violation de Domicile :</strong> Attention, une fois infiltré, vous êtes en danger de mort. Les propriétaires à l'intérieur sont en droit de défendre leur territoire et ont l'autorisation de <strong>vous abattre sur-le-champ</strong> sans aucune sommation (Légitime défense).</li>
-                    </ul>
-                </div>
-
-                <div id="job-sdf" class="job-section">
-                    <h3>📦 SDF</h3>
-                    <ul class="rules-list">
-                        <li><strong>Survie :</strong> Peuvent mendier partout avec leur carton. Le vol de nourriture et le vol entre SDF sont autorisés.</li>
-                    </ul>
+                    <p>Le Staff se réserve le droit d'adapter la sanction lorsqu'une situation particulière le nécessite.</p>
                 </div>
 
             </section>
@@ -428,16 +577,5 @@
         </div>
     </main>
 
-    <script>
-        window.addEventListener('load', () => {
-            const loader = document.getElementById('loader');
-            setTimeout(() => {
-                loader.style.opacity = '0';
-                setTimeout(() => {
-                    loader.style.display = 'none';
-                }, 600);
-            }, 1800);
-        });
-    </script>
 </body>
 </html>
